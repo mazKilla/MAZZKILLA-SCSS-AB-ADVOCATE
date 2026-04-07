@@ -90,8 +90,23 @@ try {
 
 # ── Start frontend ────────────────────────────────────────
 Write-Header "Starting React frontend on port $FrontendPort"
-$frontendJob = Start-Process -FilePath "npm" `
-    -ArgumentList "start" `
+
+# Resolve full path to npm.cmd — Start-Process needs it when launched from shortcut
+$npmPath = (Get-Command npm -ErrorAction SilentlyContinue)?.Source
+if (-not $npmPath) {
+    # Fallback: search common Node install locations
+    $candidates = @(
+        "$env:ProgramFiles\nodejs\npm.cmd",
+        "$env:APPDATA\npm\npm.cmd",
+        "$env:ProgramFiles\nodejs\npm"
+    )
+    foreach ($c in $candidates) { if (Test-Path $c) { $npmPath = $c; break } }
+}
+if (-not $npmPath) { Write-Err "npm not found — install Node.js from nodejs.org"; exit 1 }
+Write-OK "npm found at: $npmPath"
+
+$frontendJob = Start-Process -FilePath "cmd.exe" `
+    -ArgumentList "/c `"$npmPath`" start" `
     -WorkingDirectory $FrontendDir `
     -PassThru -WindowStyle Minimized
 Write-OK "Frontend started (PID $($frontendJob.Id))"
