@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UI Terminology Reference — SCSS AB Advocate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #030305;
+      --bg-card:   #0d0d12;
+      --bg-card2:  #12121a;
+      --border:    #1e1e2e;
+      --text:      #F8F8F8;
+      --text-muted:#9090a8;
+      --accent:    #00FFD4;
+      --purple:    #A855F7;
+      --red:       #f87171;
+      --yellow:    #fbbf24;
+      --blue:      #60a5fa;
+      --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+      padding: 0 0 80px;
+    }
+
+    /* ─── HEADER ─── */
+    .site-header {
+      background: linear-gradient(135deg, #0a0a14 0%, #0d0d1e 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 36px 40px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+    .site-header h1 {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .site-header p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-top: 4px;
+    }
+
+    /* ─── NAV PILLS ─── */
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 20px 40px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .toc a {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      transition: all 0.15s ease;
+    }
+    .toc a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,255,212,0.06);
+    }
+
+    /* ─── LAYOUT ─── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* ─── SECTION WRAPPER ─── */
+    .section {
+      margin-top: 48px;
+    }
+    .section-title {
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .section-heading {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-heading span { color: var(--accent); }
+
+    /* ─── CARDS ─── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+    }
+    .card + .card { margin-top: 12px; }
+
+    /* ─── ICON GRID ─── */
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .icon-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.15s;
+    }
+    .icon-item:hover { border-color: var(--accent); }
+    .icon-glyph {
+      font-size: 1.9rem;
+      line-height: 1;
+      color: var(--accent);
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+    }
+    .icon-name {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .icon-alias {
+      font-size: 0.75rem;
+      color: var(--purple);
+      font-style: italic;
+    }
+    .icon-desc {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* ─── LAYOUT DIAGRAMS ─── */
+    .layout-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .layout-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 18px 16px;
+    }
+    .layout-name {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .layout-alias {
+      font-size: 0.74rem;
+      color: var(--purple);
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .layout-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .diagram {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      background: #08080f;
+      border: 1px solid #1a1a28;
+      border-radius: 6px;
+      padding: 10px 12px;
+      line-height: 1.55;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .diagram .d-accent { color: var(--accent); }
+    .diagram .d-label  { color: var(--text); font-weight: 600; }
+
+    /* ─── INTERACTIVE ELEMENTS SECTION ─── */
+    .interactive-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .ie-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .ie-card.full { grid-column: 1 / -1; }
+    .ie-title {
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ie-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ie-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .ie-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--purple);
+      min-width: 130px;
+      padding-top: 1px;
+      flex-shrink: 0;
+    }
+    .ie-def {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .ie-def strong { color: var(--text); font-weight: 500; }
+
+    /* ─── BUTTON DEMO ─── */
+    .btn-demo-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+      align-items: center;
+    }
+    .btn-demo {
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: default;
+      border: none;
+    }
+    .btn-primary   { background: var(--accent); color: #030305; }
+    .btn-secondary { background: #1e1e2e; color: var(--text); border: 1px solid #3a3a4e; }
+    .btn-ghost     { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .btn-icon      { background: #1e1e2e; color: var(--text); border: 1px solid #3a3a4e; width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 1rem; }
+    .btn-fab       { background: var(--accent); color: #030305; width: 44px; height: 44px; padding: 0; border-radius: 50%; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .btn-label {
+      font-size: 0.68rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 4px;
+    }
+    .btn-wrap { display: flex; flex-direction: column; align-items: center; }
+
+    /* ─── BADGE/PILL/TAG/CHIP ─── */
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      align-items: center;
+    }
+    .badge       { display: inline-block; background: var(--purple); color: #fff; font-size: 0.7rem; font-weight: 600; border-radius: 4px; padding: 2px 7px; font-family: var(--font-mono); }
+    .pill        { display: inline-block; background: rgba(0,255,212,0.15); color: var(--accent); font-size: 0.7rem; border-radius: 20px; padding: 3px 10px; font-family: var(--font-mono); border: 1px solid rgba(0,255,212,0.3); }
+    .tag         { display: inline-block; background: #1e1e2e; color: var(--text-muted); font-size: 0.7rem; border-radius: 4px; padding: 3px 8px; border: 1px solid #2e2e42; font-family: var(--font-mono); }
+    .chip        { display: inline-flex; align-items: center; gap: 4px; background: #1a1a2a; color: var(--text); font-size: 0.72rem; border-radius: 20px; padding: 4px 10px 4px 6px; border: 1px solid #2e2e42; font-family: var(--font-body); }
+    .chip-avatar { width: 18px; height: 18px; border-radius: 50%; background: var(--purple); display: inline-flex; align-items: center; justify-content: center; font-size: 0.6rem; color: #fff; font-weight: 700; }
+
+    /* ─── FORM ELEMENTS DEMO ─── */
+    .input-demo { background: #08080f; border: 1px solid #2e2e42; border-radius: 6px; padding: 7px 12px; color: var(--text); font-family: var(--font-body); font-size: 0.8rem; width: 100%; outline: none; }
+    .input-row { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+    .input-label-sm { font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+    /* ─── TOGGLE / SWITCH DEMO ─── */
+    .toggle-row { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 10px; align-items: center; }
+    .toggle-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .switch {
+      width: 40px; height: 22px; background: #2e2e42; border-radius: 11px;
+      position: relative; cursor: default; border: 1px solid #3a3a4e;
+    }
+    .switch::after {
+      content: ''; position: absolute; width: 16px; height: 16px;
+      background: var(--text-muted); border-radius: 50%; top: 2px; left: 2px; transition: 0.2s;
+    }
+    .switch.on { background: var(--accent); border-color: var(--accent); }
+    .switch.on::after { left: 20px; background: #030305; }
+    .radio-demo { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--purple); display: flex; align-items: center; justify-content: center; }
+    .radio-demo.checked::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--purple); }
+    .checkbox-demo { width: 18px; height: 18px; border-radius: 3px; border: 2px solid #3a3a4e; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; }
+    .checkbox-demo.checked { background: var(--accent); border-color: var(--accent); color: #030305; font-weight: 700; }
+
+    /* ─── PROGRESS / SKELETON ─── */
+    .progress-bar-outer { background: #1e1e2e; border-radius: 6px; height: 10px; overflow: hidden; margin-top: 8px; }
+    .progress-bar-inner { height: 100%; width: 65%; background: var(--accent); border-radius: 6px; }
+    .skeleton-line { height: 12px; border-radius: 4px; background: linear-gradient(90deg, #1e1e2e 25%, #2a2a3e 50%, #1e1e2e 75%); background-size: 200% 100%; animation: shimmer 1.6s infinite; margin-top: 8px; }
+    .skeleton-line.short { width: 60%; }
+    .skeleton-line.xshort { width: 40%; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .spinner-demo { width: 24px; height: 24px; border: 3px solid #1e1e2e; border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-top: 8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── STEPPER ─── */
+    .stepper-demo { display: flex; align-items: center; gap: 0; margin-top: 12px; }
+    .step-circle { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; font-family: var(--font-mono); flex-shrink: 0; }
+    .step-circle.done { background: var(--accent); color: #030305; }
+    .step-circle.active { background: var(--purple); color: #fff; }
+    .step-circle.todo { background: #1e1e2e; color: var(--text-muted); border: 2px solid #2e2e42; }
+    .step-line { flex: 1; height: 2px; background: #1e1e2e; }
+    .step-line.done { background: var(--accent); }
+    .stepper-labels { display: flex; justify-content: space-between; margin-top: 6px; }
+    .step-lbl { font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono); text-align: center; flex: 1; }
+    .step-lbl.active { color: var(--purple); }
+    .step-lbl.done-lbl { color: var(--accent); }
+
+    /* ─── AVATAR ─── */
+    .avatar-demo { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 700; color: #030305; }
+
+    /* ─── SLIDER ─── */
+    .slider-demo { width: 100%; margin-top: 8px; accent-color: var(--accent); }
+
+    /* ─── FILE UPLOAD ─── */
+    .dropzone { border: 2px dashed #2e2e42; border-radius: 8px; padding: 16px; text-align: center; color: var(--text-muted); font-size: 0.78rem; margin-top: 8px; }
+    .dropzone:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── GLOSSARY ─── */
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .gloss-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .gloss-term {
+      font-family: var(--font-mono);
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+    .gloss-def {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+    .gloss-def code {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: #1a1a28;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--purple);
+    }
+    .gloss-def strong { color: var(--text); font-weight: 500; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .icon-grid { grid-template-columns: repeat(3, 1fr); }
+      .layout-grid { grid-template-columns: 1fr; }
+      .interactive-grid { grid-template-columns: 1fr; }
+      .ie-card.full { grid-column: auto; }
+      .glossary-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .site-header { padding: 24px 20px; }
+      .toc { padding: 12px 20px; }
+      .container { padding: 0 20px; }
+      .icon-grid { grid-template-columns: repeat(2, 1fr); }
+      .section-heading { font-size: 1.25rem; }
+    }
+
+    /* ─── PRINT ─── */
+    @media print {
+      body { background: #fff; color: #000; }
+      .site-header { background: #fff; border-bottom: 2px solid #000; position: static; }
+      .site-header h1 { color: #000; }
+      .site-header p { color: #555; }
+      .toc { display: none; }
+      .section-title { color: #000; }
+      .section-heading { color: #000; border-bottom-color: #ccc; }
+      .section-heading span { color: #000; }
+      .card, .icon-item, .layout-item, .ie-card, .gloss-item {
+        background: #fff; border-color: #ccc; color: #000;
+      }
+      .icon-glyph, .icon-name, .layout-name, .ie-title, .gloss-term { color: #000; }
+      .icon-alias, .ie-label { color: #555; }
+      .icon-desc, .layout-desc, .layout-alias, .ie-def, .gloss-def { color: #333; }
+      .diagram { background: #f5f5f5; border-color: #ccc; color: #333; }
+      .btn-primary { background: #000; color: #fff; }
+      .btn-secondary, .btn-ghost { background: #eee; color: #000; border-color: #aaa; }
+      .badge { background: #555; }
+      .pill { background: #eee; color: #000; border-color: #aaa; }
+      .progress-bar-outer { background: #eee; }
+      .progress-bar-inner { background: #000; }
+      .skeleton-line { background: #eee; animation: none; }
+      .spinner-demo { border-color: #eee; border-top-color: #000; animation: none; }
+      .dropzone { border-color: #aaa; color: #555; }
+      .input-demo { background: #f5f5f5; border-color: #ccc; color: #000; }
+      .switch { background: #eee; border-color: #aaa; }
+      .switch::after { background: #aaa; }
+      .switch.on { background: #000; }
+      .switch.on::after { background: #fff; }
+      .step-circle.todo { background: #eee; border-color: #aaa; }
+      .step-line { background: #ccc; }
+      .step-line.done { background: #000; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="site-header">
+  <div class="container">
+    <h1>SCSS AB Advocate — UI Terminology Reference</h1>
+    <p>For communicating UI changes precisely with developers and AI assistants</p>
+  </div>
+</header>
+
+<!-- ─── TABLE OF CONTENTS ─── -->
+<nav class="toc">
+  <a href="#icons">§1 Icons &amp; Names</a>
+  <a href="#layouts">§2 Layout Patterns</a>
+  <a href="#interactive">§3 Interactive Elements</a>
+  <a href="#glossary">§4 Quick Glossary</a>
+</nav>
+
+<div class="container">
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1 — ICONS                                          -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section class="section" id="icons">
+    <div class="section-title">Section 01</div>
+    <h2 class="section-heading"><span>Icons</span> &amp; Their Names</h2>
+
+    <div class="icon-grid">
+
+      <div class="icon-item">
+        <div class="icon-glyph">☰</div>
+        <div class="icon-name">Hamburger Menu</div>
+        <div class="icon-alias">nav toggle, sidebar toggle, "three lines"</div>
+        <div class="icon-desc">Opens or closes a navigation menu, usually a sidebar or mobile nav drawer.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">✕</div>
+        <div class="icon-name">Close / Dismiss</div>
+        <div class="icon-alias">X button, close icon, × (times symbol)</div>
+        <div class="icon-desc">Closes a modal, dialog, drawer, toast, or removes an item from a list.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">‹ ›</div>
+        <div class="icon-name">Chevron Left / Right</div>
+        <div class="icon-alias">arrow, caret, directional arrow</div>
+        <div class="icon-desc">Navigate backward/forward. Used in breadcrumbs, carousels, date pickers, pagination.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">∨ ∧</div>
+        <div class="icon-name">Chevron Down / Up</div>
+        <div class="icon-alias">dropdown caret, accordion toggle, expand/collapse</div>
+        <div class="icon-desc">Expands or collapses content. Signals a dropdown is available.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">⋮</div>
+        <div class="icon-name">Vertical Ellipsis</div>
+        <div class="icon-alias">kebab menu, three-dot menu, more options</div>
+        <div class="icon-desc">Opens a contextual options menu. Common on list items and cards.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">⋯</div>
+        <div class="icon-name">Horizontal Ellipsis</div>
+        <div class="icon-alias">meatball menu, overflow menu, "more"</div>
+        <div class="icon-desc">Similar to kebab but horizontal. Signals overflow actions or truncated text.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">≡</div>
+        <div class="icon-name">Three Lines / List</div>
+        <div class="icon-alias">hamburger variant, list view icon</div>
+        <div class="icon-desc">Similar to hamburger but lines are evenly spaced and equal width. Often a list-view toggle.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">⊕</div>
+        <div class="icon-name">Add / Plus</div>
+        <div class="icon-alias">FAB, create button, new item, "+"</div>
+        <div class="icon-desc">Creates a new item. As a large circle button in the bottom-right corner, called a FAB (Floating Action Button).</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">🔍</div>
+        <div class="icon-name">Search / Magnifier</div>
+        <div class="icon-alias">search icon, magnifying glass, find</div>
+        <div class="icon-desc">Opens a search field or triggers a search action.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">✏️</div>
+        <div class="icon-name">Edit / Pencil</div>
+        <div class="icon-alias">edit icon, pen, write</div>
+        <div class="icon-desc">Opens an item for editing. Often appears on hover over editable content.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">🗑</div>
+        <div class="icon-name">Trash / Delete</div>
+        <div class="icon-alias">bin, delete icon, remove</div>
+        <div class="icon-desc">Permanently removes an item. Often triggers a confirmation dialog first.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">↩</div>
+        <div class="icon-name">Back Arrow</div>
+        <div class="icon-alias">back button, go back, return</div>
+        <div class="icon-desc">Navigates to the previous page or step in a flow.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">⬆</div>
+        <div class="icon-name">Upload</div>
+        <div class="icon-alias">upload icon, send up, import</div>
+        <div class="icon-desc">Sends a file or data from the user's device to a server.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">⬇</div>
+        <div class="icon-name">Download</div>
+        <div class="icon-alias">download icon, save, export</div>
+        <div class="icon-desc">Saves a file or data from the server to the user's device.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">🔔</div>
+        <div class="icon-name">Bell / Notifications</div>
+        <div class="icon-alias">alert bell, notification icon</div>
+        <div class="icon-desc">Shows notification count (badge) and opens a notification panel on click.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">⚙️</div>
+        <div class="icon-name">Gear / Settings</div>
+        <div class="icon-alias">cog, preferences, configuration</div>
+        <div class="icon-desc">Opens settings, preferences, or a configuration panel.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">👤</div>
+        <div class="icon-name">User / Avatar / Profile</div>
+        <div class="icon-alias">profile icon, account, user icon</div>
+        <div class="icon-desc">Represents the current user. Opens profile menu or account settings.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">📎</div>
+        <div class="icon-name">Paperclip / Attachment</div>
+        <div class="icon-alias">attach, clip, file attach</div>
+        <div class="icon-desc">Attaches a file to a message or form. Common in chat and email interfaces.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">📋</div>
+        <div class="icon-name">Clipboard / Copy</div>
+        <div class="icon-alias">copy icon, copy to clipboard</div>
+        <div class="icon-desc">Copies text or content to the clipboard. Often shows a brief confirmation tick after clicking.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">✓</div>
+        <div class="icon-name">Checkmark / Check</div>
+        <div class="icon-alias">tick, done, success, confirm</div>
+        <div class="icon-desc">Confirms success, marks an item as complete, or indicates selection.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">⚠️</div>
+        <div class="icon-name">Warning / Alert Triangle</div>
+        <div class="icon-alias">warning icon, caution, alert</div>
+        <div class="icon-desc">Signals a warning state — something may go wrong but isn't yet an error.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">ℹ️</div>
+        <div class="icon-name">Info</div>
+        <div class="icon-alias">information icon, help, i-button</div>
+        <div class="icon-desc">Provides additional context. Opens a tooltip, popover, or info panel.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">🔒</div>
+        <div class="icon-name">Lock / Padlock</div>
+        <div class="icon-alias">locked, secure, private, restricted</div>
+        <div class="icon-desc">Indicates a locked or secured state. Also used on password fields and HTTPS indicators.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">📁</div>
+        <div class="icon-name">Folder</div>
+        <div class="icon-alias">directory, folder icon</div>
+        <div class="icon-desc">Represents a directory or grouped collection of files or content.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">📄</div>
+        <div class="icon-name">Document / File</div>
+        <div class="icon-alias">file icon, page, doc</div>
+        <div class="icon-desc">Represents a file or document. The specific icon may vary by file type (PDF, Word, etc.).</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">🏠</div>
+        <div class="icon-name">Home</div>
+        <div class="icon-alias">home icon, dashboard link, root</div>
+        <div class="icon-desc">Navigates to the root/home page or main dashboard of the application.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">🔗</div>
+        <div class="icon-name">Link / Chain</div>
+        <div class="icon-alias">hyperlink, URL, external link</div>
+        <div class="icon-desc">Represents a hyperlink or the ability to copy/share a URL. Sometimes appears with an arrow for external links.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">↕</div>
+        <div class="icon-name">Drag Handle / Resize</div>
+        <div class="icon-alias">drag icon, move, reorder handle</div>
+        <div class="icon-desc">Indicates an element is draggable or resizable. Cursor typically changes to a move/resize cursor on hover.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">◉</div>
+        <div class="icon-name">Radio Button (selected)</div>
+        <div class="icon-alias">radio, option button, single select</div>
+        <div class="icon-desc">A mutually exclusive selection control. Only one radio in a group can be selected at a time.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">☐</div>
+        <div class="icon-name">Checkbox (unchecked)</div>
+        <div class="icon-alias">checkbox, tick box, multi-select</div>
+        <div class="icon-desc">A toggle for selecting/deselecting an item. Multiple checkboxes in a group can be checked simultaneously.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph">☑</div>
+        <div class="icon-name">Checkbox (checked)</div>
+        <div class="icon-alias">ticked checkbox, selected, checked state</div>
+        <div class="icon-desc">The checked/active state of a checkbox. The filled square with a tick shows the item is selected.</div>
+      </div>
+
+      <div class="icon-item">
+        <div class="icon-glyph" style="font-size:1.5rem;">⟳</div>
+        <div class="icon-name">Refresh / Reload / Spinner</div>
+        <div class="icon-alias">refresh icon, reload, sync, loading</div>
+        <div class="icon-desc">Refreshes content or indicates a loading state. When animated (spinning), signals that something is processing.</div>
+      </div>
+
+    </div><!-- /icon-grid -->
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2 — LAYOUT PATTERNS                                -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section class="section" id="layouts">
+    <div class="section-title">Section 02</div>
+    <h2 class="section-heading"><span>Layout Patterns</span> &amp; Their Names</h2>
+
+    <div class="layout-grid">
+
+      <div class="layout-item">
+        <div class="layout-name">Sidebar Layout</div>
+        <div class="layout-alias">left nav, side navigation, rail nav</div>
+        <div class="layout-desc">Permanent or collapsible nav panel on the left. Main content fills the remaining space to the right.</div>
+        <div class="diagram">┌──────┬──────────────────┐
+│      │                  │
+│ NAV  │   MAIN CONTENT   │
+│      │                  │
+│      │                  │
+└──────┴──────────────────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Top Navigation Bar</div>
+        <div class="layout-alias">header nav, navbar, topbar, app bar</div>
+        <div class="layout-desc">Horizontal bar fixed at the top of the page. Contains logo, nav links, and action icons (search, user, notifications).</div>
+        <div class="diagram">┌──────────────────────────┐
+│  LOGO  Nav Links  🔔 👤  │  ← Navbar
+├──────────────────────────┤
+│                          │
+│       PAGE CONTENT       │
+│                          │
+└──────────────────────────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Drawer / Slide-in Panel</div>
+        <div class="layout-alias">side drawer, off-canvas panel, slide-over</div>
+        <div class="layout-desc">Slides in from the edge (usually left or right) over the main content. Has a semi-transparent overlay behind it. Closed with ✕ or by clicking the overlay.</div>
+        <div class="diagram">┌──────────────┬──────────┐
+│              │░░░░░░░░░░│
+│ PAGE CONTENT │ DRAWER   │◄── slides in
+│              │░░░░░░░░░░│
+│ (dimmed by   │░░░░░░░░░░│
+│  overlay)    │░░░░░░░░░░│
+└──────────────┴──────────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Modal / Dialog</div>
+        <div class="layout-alias">popup, overlay, lightbox, dialog box</div>
+        <div class="layout-desc">Centered overlay that blocks interaction with the background until dismissed. Used for confirmations, forms, or focused tasks. Background is dimmed.</div>
+        <div class="diagram">┌──────────────────────────┐
+│░░░░░░░░░░░░░░░░░░░░░░░░░░│
+│░░░┌──────────────┐░░░░░░│
+│░░░│   MODAL      │░░░░░░│
+│░░░│   Title      │░░░░░░│
+│░░░│   Content    │░░░░░░│
+│░░░│ [Cancel][OK] │░░░░░░│
+│░░░└──────────────┘░░░░░░│
+│░░░░░░░░░░░░░░░░░░░░░░░░░░│
+└──────────────────────────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Toast / Snackbar</div>
+        <div class="layout-alias">notification toast, flash message, snack</div>
+        <div class="layout-desc">Temporary notification that auto-dismisses after a few seconds. Usually appears in a corner (bottom-right or top-right). Does not block interaction.</div>
+        <div class="diagram">┌──────────────────────────┐
+│                          │
+│       PAGE CONTENT       │
+│                          │
+│                ┌───────┐ │
+│                │ Toast │ │◄── bottom-right
+│                └───────┘ │    auto-dismisses
+└──────────────────────────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Tooltip</div>
+        <div class="layout-alias">hover tip, title attribute, hint</div>
+        <div class="layout-desc">Small floating label that appears on hover near an element. Provides brief clarification. Disappears when you move the mouse away. Not interactive — use a Popover for clickable content.</div>
+        <div class="diagram">         ┌────────────┐
+         │ Tooltip    │  ← appears on hover
+         └──┬─────────┘
+            ▼
+        [  Button  ]</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Popover</div>
+        <div class="layout-alias">pop-up panel, flyout, rich tooltip</div>
+        <div class="layout-desc">Click-triggered panel near an element. Richer than a tooltip — can contain buttons, links, forms, or structured content. Dismissed by clicking outside it.</div>
+        <div class="diagram">         ┌────────────────┐
+         │ Popover        │  ← triggered by click
+         │  [Action 1]    │
+         │  [Action 2]    │
+         └──┬─────────────┘
+            ▼
+        [  Button  ]</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Dropdown Menu</div>
+        <div class="layout-alias">select menu, dropdown list, flydown</div>
+        <div class="layout-desc">A list of options that drops below a trigger button or select element when activated. Closes on selection or outside click.</div>
+        <div class="diagram">[ Choose option ∨ ]
+┌──────────────────┐
+│  Option A        │◄── dropdown opens below
+│  Option B        │
+│  Option C        │
+└──────────────────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Context Menu</div>
+        <div class="layout-alias">right-click menu, contextual menu</div>
+        <div class="layout-desc">Appears at the cursor position on right-click (or long-press on mobile). Shows actions relevant to the element that was right-clicked.</div>
+        <div class="diagram">         ┌──────────────┐
+         │ Edit         │
+         │ Copy         │◄── appears at cursor
+         │ Delete       │    on right-click
+         │ ─────────    │
+         │ Properties   │
+         └──────────────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Accordion</div>
+        <div class="layout-alias">expand/collapse, collapsible sections, disclosure</div>
+        <div class="layout-desc">A vertically stacked list of headers that expand to reveal content beneath them. Clicking the header toggles it open or closed.</div>
+        <div class="diagram">┌──────────────────────────┐
+│  Section A          ∧   │◄── expanded
+│  Lorem ipsum content     │
+│  goes here.              │
+├──────────────────────────┤
+│  Section B          ∨   │◄── collapsed
+├──────────────────────────┤
+│  Section C          ∨   │◄── collapsed
+└──────────────────────────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Tabs</div>
+        <div class="layout-alias">tab bar, tab panel, tab switcher</div>
+        <div class="layout-desc">Horizontal row of labels at the top of a content area. Clicking a tab switches the content panel below without page navigation.</div>
+        <div class="diagram">┌───────┬───────┬───────┐
+│ Tab 1 │ Tab 2 │ Tab 3 │
+└───────┴───────┴───────┴──┐
+│                           │
+│   Content for Tab 1       │
+│                           │
+└───────────────────────────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Breadcrumb</div>
+        <div class="layout-alias">breadcrumb trail, path, wayfinding</div>
+        <div class="layout-desc">A horizontal chain of links showing the user's location in the site hierarchy. Each item is clickable to navigate up the tree.</div>
+        <div class="diagram">🏠 Home  ›  Settings  ›  Profile
+  ↑           ↑           ↑
+ link        link      current page
+                        (not a link)</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Pagination</div>
+        <div class="layout-alias">page controls, pager, next/prev</div>
+        <div class="layout-desc">Controls for navigating through multiple pages of content. Usually includes numbered page buttons, previous/next arrows, and sometimes a first/last jump.</div>
+        <div class="diagram">‹  1  [2]  3  4  ...  12  ›
+     ↑   ↑              ↑
+   prev current         last</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Card</div>
+        <div class="layout-alias">content card, tile, panel</div>
+        <div class="layout-desc">A bordered or shadowed rectangular container that groups related content. Cards are typically clickable and can contain images, text, badges, and action buttons.</div>
+        <div class="diagram">┌──────────────────────────┐
+│ [Image or Icon]          │
+│                          │
+│ Card Title               │
+│ Supporting description   │
+│ text goes here.          │
+│                          │
+│ [Action]          [Link] │
+└──────────────────────────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Hero / Banner</div>
+        <div class="layout-alias">hero section, jumbotron, masthead</div>
+        <div class="layout-desc">Full-width section at the very top of a page. Usually contains a large heading, subtitle, background image, and a primary call-to-action button.</div>
+        <div class="diagram">╔══════════════════════════╗
+║  BIG HEADLINE            ║
+║  Supporting subtitle     ║
+║                          ║
+║  [ Call to Action ]      ║
+╚══════════════════════════╝
+│       PAGE CONTENT       │</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Grid Layout</div>
+        <div class="layout-alias">CSS grid, card grid, tile grid</div>
+        <div class="layout-desc">Content arranged in rows and columns. Commonly used for image galleries, card feeds, and dashboards. Column count typically responds to screen width.</div>
+        <div class="diagram">┌──────┐ ┌──────┐ ┌──────┐
+│Card 1│ │Card 2│ │Card 3│
+└──────┘ └──────┘ └──────┘
+┌──────┐ ┌──────┐ ┌──────┐
+│Card 4│ │Card 5│ │Card 6│
+└──────┘ └──────┘ └──────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Split Pane / Resizable Panels</div>
+        <div class="layout-alias">split view, resizable panels, panel divider</div>
+        <div class="layout-desc">Two panels side-by-side separated by a draggable divider. The user can drag the divider to resize each panel. Common in code editors and document views.</div>
+        <div class="diagram">┌──────────────┊──────────────┐
+│              ┊              │
+│  LEFT PANEL  ┊  RIGHT PANEL │
+│              ┊              │
+│              ┊              │
+└──────────────┊──────────────┘
+               ↑
+          drag divider</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Sticky Header</div>
+        <div class="layout-alias">fixed header, pinned header, sticky nav</div>
+        <div class="layout-desc">A header or navbar that stays visible at the top of the viewport as the user scrolls down the page. Uses CSS <code style="font-family:var(--font-mono);font-size:0.72rem;background:#1a1a28;padding:1px 4px;border-radius:3px;color:var(--purple)">position: sticky</code>.</div>
+        <div class="diagram">┌──────────────────────────┐  ←── always visible
+│ [STICKY HEADER / NAV]    │      even on scroll
+├──────────────────────────┤
+│                          │
+│  Long scrollable         │
+│  page content            │
+│  ...                     │
+│  ...                     │
+└──────────────────────────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Bottom Sheet</div>
+        <div class="layout-alias">action sheet, bottom drawer, bottom panel</div>
+        <div class="layout-desc">Mobile pattern: a panel that slides up from the bottom of the screen. Can be partial (peeking) or full-screen. Dismissed by swiping down or tapping the backdrop.</div>
+        <div class="diagram">┌──────────────────────────┐
+│░░░░░░░░░░░░░░░░░░░░░░░░░░│
+│░░░░ (dim overlay) ░░░░░░│
+├──────────────────────────┤
+│    ━━━━━  (drag handle)  │
+│                          │◄── slides up
+│   BOTTOM SHEET CONTENT   │    from bottom
+│                          │
+└──────────────────────────┘</div>
+      </div>
+
+      <div class="layout-item">
+        <div class="layout-name">Floating Action Button (FAB)</div>
+        <div class="layout-alias">FAB, primary action button, circular action button</div>
+        <div class="layout-desc">A prominent circular button floating over the UI, typically in the bottom-right corner. Represents the primary or most common action on the screen (e.g., Compose, Add, Create).</div>
+        <div class="diagram">┌──────────────────────────┐
+│                          │
+│       PAGE CONTENT       │
+│                          │
+│                   ╭────╮ │
+│                   │ ⊕  │ │◄── FAB
+│                   ╰────╯ │    bottom-right
+└──────────────────────────┘</div>
+      </div>
+
+    </div><!-- /layout-grid -->
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3 — INTERACTIVE ELEMENTS                           -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section class="section" id="interactive">
+    <div class="section-title">Section 03</div>
+    <h2 class="section-heading"><span>Interactive Element</span> Names</h2>
+
+    <div class="interactive-grid">
+
+      <!-- BUTTONS -->
+      <div class="ie-card full">
+        <div class="ie-title">Button Types</div>
+        <div class="btn-demo-row" style="margin-bottom:16px;">
+          <div class="btn-wrap"><button class="btn-demo btn-primary">Primary</button><div class="btn-label">Primary</div></div>
+          <div class="btn-wrap"><button class="btn-demo btn-secondary">Secondary</button><div class="btn-label">Secondary</div></div>
+          <div class="btn-wrap"><button class="btn-demo btn-ghost">Ghost</button><div class="btn-label">Ghost</div></div>
+          <div class="btn-wrap"><button class="btn-demo btn-icon">✏️</button><div class="btn-label">Icon Btn</div></div>
+          <div class="btn-wrap"><button class="btn-demo btn-fab">+</button><div class="btn-label">FAB</div></div>
+        </div>
+        <div class="ie-row">
+          <div class="ie-item">
+            <span class="ie-label">Primary Button</span>
+            <span class="ie-def">The most important action on the screen. High-contrast fill color. <strong>There should only be one per view.</strong> Example: "Submit", "Save", "Continue".</span>
+          </div>
+          <div class="ie-item">
+            <span class="ie-label">Secondary Button</span>
+            <span class="ie-def">A less prominent action. Typically a muted background or outlined style. Used alongside a Primary button. Example: "Cancel", "Go Back".</span>
+          </div>
+          <div class="ie-item">
+            <span class="ie-label">Ghost Button</span>
+            <span class="ie-def">Transparent background with a colored border and text. Even lower visual weight than Secondary. Used for optional or tertiary actions.</span>
+          </div>
+          <div class="ie-item">
+            <span class="ie-label">Icon Button</span>
+            <span class="ie-def">A button with only an icon, no text label. Usually square or circle. Must have an accessible label (aria-label) for screen readers. Example: the Edit pencil ✏️ or Delete bin 🗑 on a row.</span>
+          </div>
+          <div class="ie-item">
+            <span class="ie-label">FAB</span>
+            <span class="ie-def"><strong>Floating Action Button.</strong> Large, prominent circular button that floats over the page content in the bottom-right corner. Represents the primary action for the whole screen. Often has a "+" icon.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOGGLE / SWITCH / CHECKBOX / RADIO -->
+      <div class="ie-card full">
+        <div class="ie-title">Toggle vs Switch vs Checkbox vs Radio Button</div>
+        <div class="toggle-row" style="margin-bottom:14px;">
+          <div class="btn-wrap">
+            <div class="switch on"></div>
+            <div class="btn-label">Switch ON</div>
+          </div>
+          <div class="btn-wrap">
+            <div class="switch"></div>
+            <div class="btn-label">Switch OFF</div>
+          </div>
+          <div class="btn-wrap" style="flex-direction:row;gap:6px;align-items:center;">
+            <div class="checkbox-demo checked">✓</div>
+            <div class="checkbox-demo"></div>
+            <div class="btn-label" style="margin-top:0;">Checkbox</div>
+          </div>
+          <div class="btn-wrap" style="flex-direction:row;gap:6px;align-items:center;">
+            <div class="radio-demo checked"></div>
+            <div class="radio-demo"></div>
+            <div class="btn-label" style="margin-top:0;">Radio</div>
+          </div>
+        </div>
+        <div class="ie-row">
+          <div class="ie-item">
+            <span class="ie-label">Toggle / Switch</span>
+            <span class="ie-def">An on/off binary control. Looks like a physical switch that slides left (off) or right (on). Applies the change <strong>immediately</strong> — no Submit needed. Use for settings like "Enable notifications".</span>
+          </div>
+          <div class="ie-item">
+            <span class="ie-label">Checkbox</span>
+            <span class="ie-def">A square box that can be checked (✓) or unchecked. Use when the user can select <strong>multiple items</strong> from a list, or to confirm a single agreement (e.g., "I agree to terms"). Requires a form Submit to apply.</span>
+          </div>
+          <div class="ie-item">
+            <span class="ie-label">Radio Button</span>
+            <span class="ie-def">A circular button in a group where <strong>only one option</strong> can be selected at a time. Selecting one deselects the others. Use when choices are mutually exclusive (e.g., "Male / Female / Other"). Requires a form Submit.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- INPUT TYPES -->
+      <div class="ie-card full">
+        <div class="ie-title">Text Input vs Textarea vs Search Field vs Password Field</div>
+        <div class="input-row">
+          <div><div class="input-label-sm">Text Input (single line)</div><input class="input-demo" type="text" value="Single line input" readonly /></div>
+          <div><div class="input-label-sm">Textarea (multi-line)</div><textarea class="input-demo" rows="3" readonly style="resize:none;height:auto;">Multi-line textarea.
+Use for longer text like descriptions or notes.</textarea></div>
+          <div><div class="input-label-sm">Search Field</div><input class="input-demo" type="text" value="🔍  Search..." readonly /></div>
+          <div><div class="input-label-sm">Password Field</div><input class="input-demo" type="password" value="hunter2" readonly /></div>
+        </div>
+        <div class="ie-row" style="margin-top:12px;">
+          <div class="ie-item"><span class="ie-label">Text Input</span><span class="ie-def">Single-line field for short text: names, email addresses, URLs. The most common form element.</span></div>
+          <div class="ie-item"><span class="ie-label">Textarea</span><span class="ie-def">Multi-line resizable field for longer content: descriptions, messages, notes. Does not limit entry to a single line.</span></div>
+          <div class="ie-item"><span class="ie-label">Search Field</span><span class="ie-def">A text input with a magnifier icon, often with auto-submit on typing. May show autocomplete suggestions below it as you type.</span></div>
+          <div class="ie-item"><span class="ie-label">Password Field</span><span class="ie-def">A text input where characters are masked (shown as dots). Usually has a "show/hide" toggle eye icon.</span></div>
+        </div>
+      </div>
+
+      <!-- SELECT / COMBOBOX / AUTOCOMPLETE -->
+      <div class="ie-card">
+        <div class="ie-title">Select / Dropdown vs Combobox vs Autocomplete</div>
+        <div class="ie-row">
+          <div class="ie-item"><span class="ie-label">Select / Dropdown</span><span class="ie-def">A native browser control showing a fixed list of predefined options. The user can only pick from the list — cannot type freely.</span></div>
+          <div class="ie-item"><span class="ie-label">Combobox</span><span class="ie-def">A hybrid of a text input and a dropdown. The user can either type freely or pick from a list of suggestions.</span></div>
+          <div class="ie-item"><span class="ie-label">Autocomplete</span><span class="ie-def">A text input that dynamically suggests matching options as you type (fetched from a dataset). You choose one to fill the field. Example: Google search bar.</span></div>
+        </div>
+      </div>
+
+      <!-- SLIDER -->
+      <div class="ie-card">
+        <div class="ie-title">Slider / Range Input</div>
+        <input type="range" class="slider-demo" min="0" max="100" value="60" />
+        <div class="ie-row" style="margin-top:10px;">
+          <div class="ie-item"><span class="ie-label">Slider / Range</span><span class="ie-def">A draggable handle on a track for selecting a numeric value within a range. Used for volume, price filters, zoom level, etc. The value changes as the handle is dragged.</span></div>
+        </div>
+      </div>
+
+      <!-- FILE UPLOAD -->
+      <div class="ie-card">
+        <div class="ie-title">File Upload</div>
+        <div class="dropzone">⬆ Drag &amp; drop files here, or click to browse</div>
+        <div class="ie-row" style="margin-top:10px;">
+          <div class="ie-item"><span class="ie-label">Single Upload</span><span class="ie-def">A "Choose File" button that opens the OS file picker for one file at a time.</span></div>
+          <div class="ie-item"><span class="ie-label">Multi-select Upload</span><span class="ie-def">File picker configured to allow selecting multiple files at once (hold Ctrl/Cmd to select).</span></div>
+          <div class="ie-item"><span class="ie-label">Drag-and-Drop Zone</span><span class="ie-def">A bordered area the user can drag files directly onto. Often highlights with a color change when a file is dragged over it.</span></div>
+        </div>
+      </div>
+
+      <!-- BADGE / PILL / TAG / CHIP -->
+      <div class="ie-card full">
+        <div class="ie-title">Badge vs Pill vs Tag vs Chip</div>
+        <div class="badge-row">
+          <span class="badge">3</span>
+          <span class="badge">NEW</span>
+          <span class="pill">Active</span>
+          <span class="pill">Pending</span>
+          <span class="tag">react</span>
+          <span class="tag">typescript</span>
+          <div class="chip"><div class="chip-avatar">MN</div>Mitchell N.</div>
+          <div class="chip"><div class="chip-avatar">AB</div>AB Advocate</div>
+        </div>
+        <div class="ie-row" style="margin-top:12px;">
+          <div class="ie-item"><span class="ie-label">Badge</span><span class="ie-def">Small count or status indicator attached to another element (e.g., "3 unread" on a bell icon, "NEW" label on a nav item). Usually a filled colored dot or pill.</span></div>
+          <div class="ie-item"><span class="ie-label">Pill</span><span class="ie-def">A rounded-rectangle label, wider than a badge, used to show status (Active, Pending, Error). Named for its pill/capsule shape (fully rounded ends).</span></div>
+          <div class="ie-item"><span class="ie-label">Tag</span><span class="ie-def">A label for categorizing or filtering content. Usually muted in color and slightly rectangular. Users may be able to add/remove tags. Common in blogs, issue trackers.</span></div>
+          <div class="ie-item"><span class="ie-label">Chip</span><span class="ie-def">An interactive compact element that can represent an input, attribute, or action. Often includes an avatar or icon plus a label, and sometimes a close (×) button to remove it. Common in "tag input" fields.</span></div>
+        </div>
+      </div>
+
+      <!-- AVATAR -->
+      <div class="ie-card">
+        <div class="ie-title">Avatar</div>
+        <div style="display:flex;gap:12px;margin-top:10px;align-items:center;">
+          <div class="avatar-demo">MN</div>
+          <div style="width:42px;height:42px;border-radius:50%;overflow:hidden;border:2px solid var(--border);background:#2a2a3e;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">👤</div>
+        </div>
+        <div class="ie-row" style="margin-top:10px;">
+          <div class="ie-item"><span class="ie-label">Avatar</span><span class="ie-def">A circular representation of a user — either a profile photo or initials (e.g., "MN") on a colored background when no photo is set. Clicking it usually opens a profile menu.</span></div>
+        </div>
+      </div>
+
+      <!-- SKELETON LOADER -->
+      <div class="ie-card">
+        <div class="ie-title">Skeleton Loader</div>
+        <div class="skeleton-line" style="width:80%;"></div>
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line xshort"></div>
+        <div class="ie-row" style="margin-top:10px;">
+          <div class="ie-item"><span class="ie-label">Skeleton Loader</span><span class="ie-def">Grey placeholder shapes that mimic the layout of content while it loads. Reduces perceived load time compared to a blank screen or spinner. The shimmer animation signals activity.</span></div>
+        </div>
+      </div>
+
+      <!-- PROGRESS BAR / SPINNER / SKELETON -->
+      <div class="ie-card full">
+        <div class="ie-title">Progress Bar vs Spinner vs Skeleton</div>
+        <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin-top:8px;">
+          <div>
+            <div class="btn-label" style="margin-bottom:6px;text-align:left;">Progress Bar (65%)</div>
+            <div style="width:200px;"><div class="progress-bar-outer"><div class="progress-bar-inner"></div></div></div>
+          </div>
+          <div>
+            <div class="btn-label" style="margin-bottom:6px;text-align:left;">Spinner</div>
+            <div class="spinner-demo"></div>
+          </div>
+          <div>
+            <div class="btn-label" style="margin-bottom:6px;text-align:left;">Skeleton</div>
+            <div style="width:180px;"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+          </div>
+        </div>
+        <div class="ie-row" style="margin-top:12px;">
+          <div class="ie-item"><span class="ie-label">Progress Bar</span><span class="ie-def">A horizontal bar that fills left-to-right to show how much of a task is complete. Use when the <strong>percentage or time remaining is known</strong> (e.g., file upload, form steps).</span></div>
+          <div class="ie-item"><span class="ie-label">Spinner</span><span class="ie-def">An animated circular loop indicating something is loading. Use when the duration is <strong>unknown</strong>. Also called a loading indicator or throbber.</span></div>
+          <div class="ie-item"><span class="ie-label">Skeleton</span><span class="ie-def">Grey placeholder blocks in the shape of the expected content. Use when you know the <strong>layout of content before it loads</strong>. Less jarring than a spinner for page-level loads.</span></div>
+        </div>
+      </div>
+
+      <!-- STEPPER / WIZARD -->
+      <div class="ie-card full">
+        <div class="ie-title">Stepper / Wizard (Multi-step Form)</div>
+        <div class="stepper-demo">
+          <div class="step-circle done">✓</div>
+          <div class="step-line done"></div>
+          <div class="step-circle done">✓</div>
+          <div class="step-line done"></div>
+          <div class="step-circle active">3</div>
+          <div class="step-line"></div>
+          <div class="step-circle todo">4</div>
+          <div class="step-line"></div>
+          <div class="step-circle todo">5</div>
+        </div>
+        <div class="stepper-labels">
+          <span class="step-lbl done-lbl">Account</span>
+          <span class="step-lbl done-lbl">Details</span>
+          <span class="step-lbl active">Plan</span>
+          <span class="step-lbl">Payment</span>
+          <span class="step-lbl">Review</span>
+        </div>
+        <div class="ie-row" style="margin-top:12px;">
+          <div class="ie-item"><span class="ie-label">Stepper / Wizard</span><span class="ie-def">A multi-step form where complex tasks are broken into numbered sequential steps. The step indicator at the top shows completed (✓), current (highlighted), and future (grey) steps. Allows the user to go Back without losing prior data. Also called a <strong>wizard</strong> when highly guided.</span></div>
+        </div>
+      </div>
+
+    </div><!-- /interactive-grid -->
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4 — GLOSSARY                                       -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section class="section" id="glossary">
+    <div class="section-title">Section 04</div>
+    <h2 class="section-heading"><span>Quick</span> Glossary</h2>
+
+    <div class="glossary-grid">
+
+      <div class="gloss-item">
+        <div class="gloss-term">Viewport</div>
+        <div class="gloss-def">The visible area of a web page in the browser window. Everything outside it is scrolled out of view. On mobile, the viewport is the physical screen. Used in phrases like "fixed to the viewport" (always visible regardless of scroll).</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">Breakpoint (mobile / tablet / desktop)</div>
+        <div class="gloss-def">A specific screen width at which the layout changes. Common breakpoints: <strong>Mobile</strong> (&lt;768px), <strong>Tablet</strong> (768–1024px), <strong>Desktop</strong> (&gt;1024px). When you say "fix this on mobile", you mean below the mobile breakpoint.</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">Responsive vs Adaptive</div>
+        <div class="gloss-def"><strong>Responsive:</strong> The layout fluidly adjusts to any screen width using flexible units (%, vw, CSS Grid/Flex). One codebase, infinite screen sizes. <strong>Adaptive:</strong> Distinct fixed layouts are served at specific breakpoints — basically different designs for mobile/tablet/desktop.</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">z-index / Stacking Order</div>
+        <div class="gloss-def">Controls which overlapping elements appear on top. Higher <code>z-index</code> = closer to the user (rendered in front). Modals typically have a very high z-index (e.g., 1000) so they appear above all other content. If something is appearing behind something else unexpectedly, it's usually a z-index problem.</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">Fixed vs Absolute vs Relative vs Sticky</div>
+        <div class="gloss-def">CSS position values: <strong>Relative</strong> — offset from where the element normally sits, still takes up space. <strong>Absolute</strong> — removed from flow, positioned relative to nearest positioned ancestor. <strong>Fixed</strong> — positioned relative to the viewport, stays put on scroll. <strong>Sticky</strong> — normal flow until a scroll threshold, then acts like Fixed.</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">Flex vs Grid</div>
+        <div class="gloss-def"><strong>Flexbox (<code>display:flex</code>):</strong> One-dimensional layout — arranges items in a row OR a column. Great for navbars, button rows, centering a single element. <strong>CSS Grid (<code>display:grid</code>):</strong> Two-dimensional layout — rows AND columns simultaneously. Great for full page layouts and card grids.</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">Padding vs Margin</div>
+        <div class="gloss-def"><strong>Padding:</strong> Space inside an element between its content and its border. Clicking inside padding still triggers the element. <strong>Margin:</strong> Space outside an element's border, between it and neighboring elements. Think: padding is inside the box, margin is outside the box.</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">Overflow: hidden / scroll / auto</div>
+        <div class="gloss-def">What happens when content is larger than its container. <code>hidden</code> — clips/cuts off overflowing content (nothing is scrollable). <code>scroll</code> — always shows scrollbars. <code>auto</code> — only shows scrollbars when content actually overflows (most common). If content is getting cut off, overflow is likely set to hidden.</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">opacity vs visibility vs display:none</div>
+        <div class="gloss-def"><code>opacity:0</code> — invisible but still takes up space and is still clickable. <code>visibility:hidden</code> — invisible and not clickable, but still takes up space. <code>display:none</code> — completely removed from layout. Takes up no space. Not clickable. Screen readers skip it. When you say "hide this", a developer needs to know which behavior you want.</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">State (hover, active, focus, disabled)</div>
+        <div class="gloss-def">Visual states an interactive element can be in: <strong>hover</strong> — mouse is over it. <strong>active</strong> — currently being clicked/pressed. <strong>focus</strong> — selected via keyboard Tab key (usually shows an outline). <strong>disabled</strong> — cannot be interacted with (greyed out). Each state can have different styles.</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">Props (in React context)</div>
+        <div class="gloss-def">Short for "properties." Values passed into a React component to configure it. Like arguments to a function. Example: a Button component might accept props like <code>label="Submit"</code>, <code>disabled={true}</code>, <code>onClick={handleSubmit}</code>. When a developer says "pass a prop", they mean pass a value into a component.</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">Component</div>
+        <div class="gloss-def">A reusable, self-contained piece of UI built in code (React, Vue, etc.). A Button, a Card, a Modal, a Navbar are all components. They can be composed together to build pages. When you say "add a component", you're asking for a reusable building block to be created or used.</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">Render</div>
+        <div class="gloss-def">The process of converting code/data into visible HTML on screen. "Re-render" means the component updates its display in response to new data or a user action. "It's not rendering" means it's not appearing on screen. "It re-renders too often" means it's refreshing more than necessary, causing performance issues.</div>
+      </div>
+
+      <div class="gloss-item">
+        <div class="gloss-term">Hardcoded vs Dynamic</div>
+        <div class="gloss-def"><strong>Hardcoded:</strong> A value is written directly in the code and cannot change without a code edit. Example: the text "Welcome, Mitchell" written literally in the HTML. <strong>Dynamic:</strong> The value comes from data (a variable, database, API). Example: "Welcome, {username}" where the name changes per user. When you say "make this dynamic", you mean connect it to real data.</div>
+      </div>
+
+    </div><!-- /glossary-grid -->
+  </section>
+
+</div><!-- /container -->
+
+<div style="text-align:center;padding:40px 20px 0;color:#2a2a3a;font-size:0.72rem;font-family:var(--font-mono);">
+  SCSS AB Advocate — UI Terminology Reference &nbsp;·&nbsp; Generated 2026-04-07
+</div>
+
+</body>
+</html>
