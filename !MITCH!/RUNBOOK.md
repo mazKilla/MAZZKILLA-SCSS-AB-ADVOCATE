@@ -149,6 +149,57 @@ emergent-SCSS/
 
 ---
 
+## Docker — Run from GitHub Container Registry
+
+The image is published at:
+```
+ghcr.io/mazkilla/mazzkilla-scss-ab-advocate:latest
+```
+
+### Pull and run (anyone with the URL):
+```bash
+docker pull ghcr.io/mazkilla/mazzkilla-scss-ab-advocate:latest
+
+docker run -d \
+  -e MONGO_URL="mongodb+srv://mazzkilla:<password>@cluster0.uvfzo0b.mongodb.net/?appName=Cluster0" \
+  -e DB_NAME="scss_advocate" \
+  -e ANTHROPIC_API_KEY="sk-ant-..." \
+  -e XAI_API_KEY="xai-..." \
+  -p 3000:3000 -p 8001:8001 \
+  --name scss-advocate \
+  ghcr.io/mazkilla/mazzkilla-scss-ab-advocate:latest
+```
+
+### Stop / remove container:
+```bash
+docker stop scss-advocate && docker rm scss-advocate
+```
+
+### View logs:
+```bash
+docker logs -f scss-advocate
+```
+
+### Rebuild and push (after code changes):
+```powershell
+# 1. Pre-build React (required — no Node in container)
+cd C:\Users\User\.1myprojects\ENV\emergent-SCSS\frontend
+npm run build
+
+# 2. Rebuild Docker image
+cd C:\Users\User\.1myprojects\ENV\emergent-SCSS
+docker build -t ghcr.io/mazkilla/mazzkilla-scss-ab-advocate:latest .
+
+# 3. Push (login with PAT if needed)
+echo "<PAT_TOKEN>" | docker login ghcr.io -u mazKilla --password-stdin
+docker push ghcr.io/mazkilla/mazzkilla-scss-ab-advocate:latest
+```
+
+> **Note:** The Docker image serves frontend as static files (python3 http.server).
+> For active development, use `start-windows.ps1` with live React dev server instead.
+
+---
+
 ## WSL Notes
 
 - **WSL does NOT work on this machine** — nested virtualization not supported (Intel HD 620 limitation)
