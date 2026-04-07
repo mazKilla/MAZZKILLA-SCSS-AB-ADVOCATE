@@ -149,6 +149,113 @@ emergent-SCSS/
 
 ---
 
+## Docker — CLI Reference (All Commands)
+
+> **IMPORTANT — Line wrapping kills Docker commands.**
+> Always paste `docker run` as a **single unbroken line** in your terminal.
+> Multi-line backtick style (`\``) causes env vars to get newlines injected,
+> which corrupts URLs (MongoDB SRV lookup fails silently with a DNS error).
+
+### Login to GitHub Container Registry
+```bash
+echo "<YOUR_PAT_TOKEN>" | docker login ghcr.io -u mazKilla --password-stdin
+```
+
+### Pull latest image
+```bash
+docker pull ghcr.io/mazkilla/mazzkilla-scss-ab-advocate:latest
+```
+
+### Run container (SINGLE LINE — do not wrap)
+```bash
+docker run -d -e MONGO_URL="mongodb+srv://mazzkilla:<password>@cluster0.uvfzo0b.mongodb.net/?appName=Cluster0" -e DB_NAME="scss_advocate" -e ANTHROPIC_API_KEY="<key>" -e XAI_API_KEY="<key>" -p 3000:3000 -p 8001:8001 --name scss-advocate ghcr.io/mazkilla/mazzkilla-scss-ab-advocate:latest
+```
+
+### Check if container is running
+```bash
+docker ps
+```
+
+### View live logs
+```bash
+docker logs scss-advocate
+docker logs -f scss-advocate        # follow (live tail)
+```
+
+### Stop container
+```bash
+docker stop scss-advocate
+```
+
+### Remove container (required before re-running with same name)
+```bash
+docker rm scss-advocate
+docker rm -f scss-advocate          # force remove even if running
+```
+
+### Stop + remove in one shot
+```bash
+docker rm -f scss-advocate
+```
+
+### Restart after changes
+```bash
+docker rm -f scss-advocate
+docker pull ghcr.io/mazkilla/mazzkilla-scss-ab-advocate:latest
+docker run -d ... (same run command above)
+```
+
+### Kill native Windows processes before running Docker (avoid port conflicts)
+```powershell
+Get-Process python,node -ErrorAction SilentlyContinue | Stop-Process -Force
+```
+
+### Check what's using ports 3000 or 8001
+```powershell
+netstat -ano | findstr ":3000 :8001"
+```
+
+### Kill a specific PID occupying a port (replace 1234)
+```powershell
+taskkill /PID 1234 /F
+```
+
+### Rebuild image after code changes (pre-build React first)
+```powershell
+# Step 1 — build React static files on Windows host
+cd C:\Users\User\.1myprojects\ENV\emergent-SCSS\frontend
+npm run build
+
+# Step 2 — build Docker image
+cd C:\Users\User\.1myprojects\ENV\emergent-SCSS
+docker build -t ghcr.io/mazkilla/mazzkilla-scss-ab-advocate:latest .
+
+# Step 3 — push to registry
+docker push ghcr.io/mazkilla/mazzkilla-scss-ab-advocate:latest
+```
+
+### List all local Docker images
+```bash
+docker images
+```
+
+### Remove a local image
+```bash
+docker rmi ghcr.io/mazkilla/mazzkilla-scss-ab-advocate:latest
+```
+
+### List all containers (including stopped)
+```bash
+docker ps -a
+```
+
+### Remove ALL stopped containers (cleanup)
+```bash
+docker container prune
+```
+
+---
+
 ## Docker — Run from GitHub Container Registry
 
 The image is published at:
