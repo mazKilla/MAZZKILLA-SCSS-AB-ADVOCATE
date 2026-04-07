@@ -1,0 +1,11 @@
+packages:
+  "framer-motion": "Animations and layout transitions"
+  "react-dropzone": "Drag and drop file uploads"
+  "date-fns": "Date formatting"
+  "lucide-react": "Icons for UI"
+  "clsx": "Class string merging"
+  "tailwind-merge": "Tailwind class merging"
+images: []
+notes:
+  - "Using provided @workspace/api-client-react hooks"
+  - "Implemented dark high-contrast terminal/hacker aesthetic"

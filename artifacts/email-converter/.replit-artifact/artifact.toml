@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Email Converter"
+version = "1.0.0"
+id = "artifacts/email-converter"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18905
+
+[services.development]
+run = "pnpm --filter @workspace/email-converter run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/email-converter", "run", "build" ]
+publicDir = "artifacts/email-converter/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18905"
+BASE_PATH = "/"

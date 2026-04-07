@@ -1,0 +1,120 @@
+{
+  "project_name": "SCSS AB ADVOCATE",
+  "theme_archetype": {
+    "theme": "dark",
+    "archetype_number": 7,
+    "archetype_name": "Electric & Neon x Swiss Authority",
+    "rationale": "Fusing Cyberpunk/Neon (Archetype 7) dictated by the user's color constraints with Swiss Brutalist structural authority (Archetype 4) to suit a governmental/legal adjudication tool. This 'Cyber-Bureaucracy' approach balances extreme high-contrast aesthetics with the rigid, organized layouts required for casework."
+  },
+  "core_principles": [
+    "Fusion over Imitation: Mix rigid legal document structures with underground cyberpunk neon accents.",
+    "Contrast over Softness: No muddy greys. Pure deepest blacks against electric brights. 1px sharp borders.",
+    "Content is King: The chat area and markdown responses must have generous breathing room and flawless typography.",
+    "The Terminal Aesthetic: Use raw, flat, border-collapse data grids rather than floating 'soft' cards."
+  ],
+  "colors": {
+    "background": {
+      "base": "#030305",
+      "surface": "#08080C",
+      "surface_hover": "#12121A"
+    },
+    "borders": {
+      "subtle": "rgba(255, 255, 255, 0.1)",
+      "strong": "rgba(255, 255, 255, 0.2)"
+    },
+    "brand": {
+      "cyan": "#00FFD4",
+      "cyan_glow": "rgba(0, 255, 212, 0.5)",
+      "purple": "#A855F7",
+      "purple_glow": "rgba(168, 85, 247, 0.5)"
+    },
+    "text": {
+      "primary": "#F8F8F8",
+      "secondary": "#A1A1AA",
+      "accent": "#00FFD4"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "heading": "'Unbounded', sans-serif",
+      "body": "'IBM Plex Sans', sans-serif",
+      "mono": "'JetBrains Mono', monospace"
+    },
+    "imports": [
+      "@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Unbounded:wght@400;600;800;900&family=JetBrains+Mono:wght@400&display=swap');"
+    ],
+    "rules": {
+      "logo": "font-heading font-black tracking-tighter text-brand-cyan drop-shadow-[0_0_12px_rgba(0,255,212,0.8)]",
+      "h1_h2": "font-heading font-bold tracking-tight text-text-primary",
+      "body": "font-body text-base leading-relaxed text-text-primary",
+      "metadata": "font-mono text-xs uppercase tracking-[0.15em] text-text-secondary"
+    }
+  },
+  "spacing_and_layout": {
+    "global": "h-screen w-screen overflow-hidden bg-background-base flex flex-col text-text-primary",
+    "header": "h-16 shrink-0 border-b border-borders-subtle bg-background-base flex items-center justify-between px-6 z-50",
+    "main_container": "flex-1 flex overflow-hidden",
+    "sidebar_left": "w-72 shrink-0 border-r border-borders-subtle bg-background-base flex flex-col",
+    "chat_area": "flex-1 flex flex-col relative bg-background-surface overflow-hidden",
+    "sidebar_right": "w-80 shrink-0 border-l border-borders-subtle bg-background-base flex flex-col"
+  },
+  "surface_strategies": {
+    "grid_borders": "Use border-collapse techniques. Elements should have border-r and border-b with border-white/10 instead of full borders to create a 'blueprint' feel.",
+    "shimmering_border_card": "For AI responses or active states: Create a wrapper with relative, p-[1px], overflow-hidden, and rounded-md. Inside, add a spinning gradient div (absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_0deg,#00FFD4_90deg,transparent_180deg,#A855F7_270deg)] animate-[spin_4s_linear_infinite]). Above that, place the inner content div with bg-background-surface relative z-10 h-full w-full."
+  },
+  "components": {
+    "header": {
+      "logo_area": "Flex row, items-center, gap-3. Logo text 'MazZKiLL@' using logo typography rule. App name 'SCSS AB ADVOCATE' in font-mono text-sm tracking-widest text-text-secondary border-l border-white/10 pl-3.",
+      "model_selector": "Flex items-center gap-1 bg-background-surface border border-borders-subtle rounded-full p-1. Buttons for 'Claude Sonnet 4.5' and 'Grok3'. Active state: bg-white/10 text-brand-cyan with a subtle text-shadow. Include a tiny w-2 h-2 rounded-full bg-brand-cyan animate-pulse for the active status badge."
+    },
+    "sidebar_left": {
+      "new_session_btn": "w-full py-3 border-b border-borders-subtle flex items-center justify-center gap-2 text-brand-cyan font-mono text-sm hover:bg-brand-cyan/10 transition-colors",
+      "session_list": "flex-1 overflow-y-auto",
+      "session_item": "p-4 border-b border-borders-subtle hover:bg-white/5 cursor-pointer flex flex-col gap-1. Active item gets border-l-2 border-brand-cyan bg-white/5."
+    },
+    "chat_area": {
+      "message_list": "flex-1 overflow-y-auto p-8 space-y-8",
+      "user_message": "self-end max-w-[80%] bg-white/5 border border-borders-subtle p-5 rounded-lg font-body text-text-primary",
+      "ai_message": "self-start w-full border border-borders-subtle bg-background-base p-6 rounded-lg font-body leading-relaxed prose prose-invert prose-p:text-text-primary prose-a:text-brand-cyan prose-code:text-brand-purple prose-pre:bg-[#030305] prose-pre:border prose-pre:border-white/10",
+      "ai_message_generating": "Apply the shimmering_border_card strategy to this specific card.",
+      "inline_citations": "Render web search results as small inline tags or blockquotes with border-l-2 border-brand-cyan bg-brand-cyan/5 text-sm p-3 font-mono text-brand-cyan/80",
+      "input_area": "p-6 border-t border-borders-subtle bg-background-base",
+      "input_box": "w-full bg-background-surface border border-borders-subtle p-4 text-text-primary focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan transition-all resize-none font-body"
+    },
+    "email_panel": {
+      "header": "p-4 border-b border-borders-subtle font-heading text-sm text-brand-purple flex items-center gap-2 uppercase tracking-widest",
+      "search_bar": "px-4 py-3 border-b border-borders-subtle bg-white/5",
+      "email_list": "flex-1 overflow-y-auto",
+      "email_card": "p-4 border-b border-borders-subtle hover:bg-white/5 cursor-pointer. Contains metadata (Date, From) in font-mono text-[10px] text-text-secondary, Subject in font-body text-sm text-text-primary truncate"
+    }
+  },
+  "icons": {
+    "library": "lucide-react",
+    "usage": "Use stroke-width 1.5. Colors should inherit text color or be specifically set to brand-cyan/brand-purple for accents. NO EMOJIS ALLOWED."
+  },
+  "testing_attributes": {
+    "rules": "All interactive and key informational elements MUST include a data-testid attribute.",
+    "required_examples": [
+      "data-testid=\"sidebar-session-list\"",
+      "data-testid=\"new-session-button\"",
+      "data-testid=\"chat-input-textarea\"",
+      "data-testid=\"chat-submit-button\"",
+      "data-testid=\"model-selector-toggle\"",
+      "data-testid=\"email-references-panel\"",
+      "data-testid=\"api-key-settings-form\""
+    ]
+  },
+  "media": {
+    "images": []
+  },
+  "instructions_to_main_agent": [
+    "Ensure all CSS files apply the custom fonts (IBM Plex Sans, Unbounded, JetBrains Mono) from Google Fonts.",
+    "Do NOT use standard rounded Shadcn cards. Use flat, sharp rectangles or very slightly rounded (rounded-md) elements with 1px border-white/10 for the 'Control Room Grid' aesthetic.",
+    "Implement the 'shimmering border' for the AI generating response using pure Tailwind utility classes: a wrapper with overflow-hidden and p-[1px], containing an absolute inset-[-100%] animate-[spin_4s_linear_infinite] conic gradient background, with the actual card div resting on top.",
+    "The logo MUST glow. Use text-brand-cyan and drop-shadow-[0_0_12px_rgba(0,255,212,0.8)].",
+    "Maintain strict negative space. Don't cramp the chat area; use generous padding (p-6, p-8).",
+    "The UI is a fixed full-screen layout (h-screen, overflow-hidden on body). Scrollable areas should be specific containers (like the chat message list or sidebar session list).",
+    "All React code should be in .js extensions as per constraints, not .tsx.",
+    "Ensure the UI meets the E1 'Anti-AI' standard by avoiding basic centering and default SaaS blues/greys. Strictly adhere to the pure deep black (#030305) and electric cyan/purple accents."
+  ]
+}

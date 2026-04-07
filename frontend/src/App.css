@@ -1,0 +1,11 @@
+/* App.css - Global component overrides */
+* { box-sizing: border-box; }
+
+button:focus-visible {
+  outline: 1px solid rgba(0, 255, 212, 0.5);
+  outline-offset: 2px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+}

@@ -1,0 +1,231 @@
+<analysis>### Handover Summary
+
+**original_problem_statement**: 
+User wants to build an SCSS AB ADVOCATE full-stack web app acting as an expert Appeal Officer for the Alberta Expected to Work (ETW) program. The app requires a high-contrast dark neon UI, an Email Converter tool (parsing , , PDFs, and TXT files into structured JSON while stripping signatures/quotes), multi-selection bulk uploads, an AI Chat connected to Claude/Grok models, an Alberta.ca policy crawler, and a security gate (question PUG_BUD -> answer BENJI).
+
+**User's preferred language**: English 
+*(INSTRUCT: Next agent MUST respond in English only)*
+
+**what currently exists?** 
+A fully functional React + FastAPI + MongoDB application with a dark neon aesthetic. The backend has been modularized into separate routers (, , , , , ). Features include: an Email Converter (with Drag & Drop, Folder Upload, and JSON preview), an Email References panel, a Policy Docs web crawler, an AI Chat window (with attachment upload), and a working security gate. Claude has been reverted to  per user request. Robust context-window capping and error handling for 504 timeouts are implemented.
+
+**Last working item**: 
+- **Last item agent was working**: Fixing a JSON parsing error () in the frontend during AI chat. The agent found that large context windows were causing proxy timeouts, which returned HTML instead of JSON. The agent capped email context to 32,000 chars, policy docs to 12,000 chars, added a 25s timeout to the AI call, and updated  to strictly verify  before calling .
+- **Status**: USER VERIFICATION PENDING
+- **Agent Testing Done**: Y
+- **Which testing method agent to use?**: both (If further changes are made to chat handling, run testing agent to verify no regressions in error handling).
+- **User Testing Done**: N
+
+**All Pending/In progress Issue list**: 
+- **Issue 1: Grok API Key  Error** (P2)
+   - Attempted fixes: App correctly handles the 403 error gracefully in the UI. 
+   - Next debug checklist: Await user to fund their xAI account.
+   - Why fix this issue and what will be achieved with the fix?: External API dependency.
+   - Status: BLOCKED (On user funding account)
+   - Is recurring issue?: Y
+   - Should Test frontend/backend/both after fix?: Backend
+   - Blocked on other issue: None
+
+**In progress Task List**: 
+*(No tasks currently in progress; the previous bug was successfully patched).*
+
+**Upcoming and Future Tasks**:
+- **Task 1: Appeal letter template generator** (P1)
+  - Details: Create a feature that allows the AI to generate structured appeal letter templates based on the current context, email references, and policy documents.
+- **Task 2: Export case/session to PDF** (P1)
+  - Details: Implement a button/endpoint to download the current chat session and references as a formatted PDF document.
+- **Future Tasks**:
+  - Rate limiting, async MongoDB connection pooling, case tagging, and multi-user auth.
+
+**Completed work in this session**:
+- Added PDF (usage: pdfplumber [-h] [--structure | --structure-text]
+                  [--format {csv,json,text}] [--types TYPES [TYPES ...]]
+                  [--include-attrs INCLUDE_ATTRS [INCLUDE_ATTRS ...]]
+                  [--exclude-attrs EXCLUDE_ATTRS [EXCLUDE_ATTRS ...]]
+                  [--laparams LAPARAMS] [--precision PRECISION]
+                  [--pages PAGES [PAGES ...]] [--indent INDENT]
+                  [infile]
+
+positional arguments:
+  infile
+
+options:
+  -h, --help            show this help message and exit
+  --structure           Write the structure tree as JSON. All other arguments
+                        except --pages, --laparams, and --indent will be
+                        ignored
+  --structure-text      Write the structure tree as JSON including text
+                        contents. All other arguments except --pages,
+                        --laparams, and --indent will be ignored
+  --format {csv,json,text}
+  --types TYPES [TYPES ...]
+  --include-attrs INCLUDE_ATTRS [INCLUDE_ATTRS ...]
+                        Include *only* these object attributes in output.
+  --exclude-attrs EXCLUDE_ATTRS [EXCLUDE_ATTRS ...]
+                        Exclude these object attributes from output.
+  --laparams LAPARAMS
+  --precision PRECISION
+  --pages PAGES [PAGES ...]
+  --indent INDENT       Indent level for JSON pretty-printing.) and TXT support to Email Converter.
+- Added Folder Select functionality to Email Converter.
+- Added Security Gate ( -> ).
+- Fixed Drag & Drop event propagation issues in Email Converter.
+- Changed Send to Advocate behavior to populate the *Email References* panel (saving individually to DB) instead of directly injecting raw strings into chat.
+- Added Wipe Database button for conversion history.
+- Reverted Claude to version 4.5.
+- Refactored  into a clean modular structure ( directory).
+- Added an Attachment button to the chat input box.
+- Added an Alberta.ca PDF/Policy crawler feature.
+- Fixed Context window bloat and JSON parsing timeout crashes.
+
+**Earlier issues found/mentioned but not fixed**:
+*(None - all user-reported bugs in this session were squashed).*
+
+**Known issue recurrence from previous fork**:
+- **Issue recurrence in previous fork**: Frontend  crash on 504 Gateway Timeouts (Unexpected token T...).
+- **Recurrence count**: 2 (Occurred twice in the session, fixed permanently in the final step).
+- **Status**: RESOLVED
+
+**Code Architecture**:
+
+
+**Key Technical Concepts**:
+- Frontend: React.js, Tailwind CSS, Lucide React icons.
+- Backend: FastAPI (Modular APIRouters), Python  module, usage: pdfplumber [-h] [--structure | --structure-text]
+                  [--format {csv,json,text}] [--types TYPES [TYPES ...]]
+                  [--include-attrs INCLUDE_ATTRS [INCLUDE_ATTRS ...]]
+                  [--exclude-attrs EXCLUDE_ATTRS [EXCLUDE_ATTRS ...]]
+                  [--laparams LAPARAMS] [--precision PRECISION]
+                  [--pages PAGES [PAGES ...]] [--indent INDENT]
+                  [infile]
+
+positional arguments:
+  infile
+
+options:
+  -h, --help            show this help message and exit
+  --structure           Write the structure tree as JSON. All other arguments
+                        except --pages, --laparams, and --indent will be
+                        ignored
+  --structure-text      Write the structure tree as JSON including text
+                        contents. All other arguments except --pages,
+                        --laparams, and --indent will be ignored
+  --format {csv,json,text}
+  --types TYPES [TYPES ...]
+  --include-attrs INCLUDE_ATTRS [INCLUDE_ATTRS ...]
+                        Include *only* these object attributes in output.
+  --exclude-attrs EXCLUDE_ATTRS [EXCLUDE_ATTRS ...]
+                        Exclude these object attributes from output.
+  --laparams LAPARAMS
+  --precision PRECISION
+  --pages PAGES [PAGES ...]
+  --indent INDENT       Indent level for JSON pretty-printing., BeautifulSoup4.
+- Database: MongoDB.
+- Architecture: REST API, independent modular routes, context-budgeted LLM payload construction.
+
+**key DB schema**:
+- : 
+- : 
+- : 
+- : 
+
+**changes in tech stack**:
+- Added usage: pdfplumber [-h] [--structure | --structure-text]
+                  [--format {csv,json,text}] [--types TYPES [TYPES ...]]
+                  [--include-attrs INCLUDE_ATTRS [INCLUDE_ATTRS ...]]
+                  [--exclude-attrs EXCLUDE_ATTRS [EXCLUDE_ATTRS ...]]
+                  [--laparams LAPARAMS] [--precision PRECISION]
+                  [--pages PAGES [PAGES ...]] [--indent INDENT]
+                  [infile]
+
+positional arguments:
+  infile
+
+options:
+  -h, --help            show this help message and exit
+  --structure           Write the structure tree as JSON. All other arguments
+                        except --pages, --laparams, and --indent will be
+                        ignored
+  --structure-text      Write the structure tree as JSON including text
+                        contents. All other arguments except --pages,
+                        --laparams, and --indent will be ignored
+  --format {csv,json,text}
+  --types TYPES [TYPES ...]
+  --include-attrs INCLUDE_ATTRS [INCLUDE_ATTRS ...]
+                        Include *only* these object attributes in output.
+  --exclude-attrs EXCLUDE_ATTRS [EXCLUDE_ATTRS ...]
+                        Exclude these object attributes from output.
+  --laparams LAPARAMS
+  --precision PRECISION
+  --pages PAGES [PAGES ...]
+  --indent INDENT       Indent level for JSON pretty-printing. for parsing PDFs.
+- Backend was heavily refactored from a monolithic  to modular FastAPI routers ().
+
+**All files of reference**:
+-  (Manages context building & LLM calls; contains the token budget limits).
+-  (Contains the frontend fetch wrappers and robust  error handling logic).
+-  (UI for parsing multiple formats).
+-  (UI for parsed references and policy docs).
+
+**Areas that need refactoring**:
+-  has grown quite large (~450 lines). Consider extracting session management and API call logic into a custom hook (e.g., ) in the future to keep the component clean.
+
+**key api endpoints**:
+-  (AI interaction, returns structured responses).
+-  (Email/PDF/TXT converter upload).
+-  (Save extracted emails as references for a session).
+-  (Crawl an Alberta.ca policy URL).
+-  (Wipes conversion history).
+
+**Critical Info for New Agent**:
+- **Model Version:** DO NOT use Claude 4.6. The user specifically requested to revert to Claude 4.5 ().
+- **Error Handling:** When adding new API calls in the frontend, ALWAYS check  and  before calling . Kubernetes proxies will return HTML during timeouts (504), which causes UI crashes.
+- **Context Limits:** The  route enforces a strict budget (32,000 chars for emails, 12,000 for policies). Do not remove these limits without adding an alternative chunking mechanism, or the Anthropic API will timeout.
+- **Security Gate:** App prompts for PUG_BUD. Passcode is BENJI.
+- **Grok Status:** API Key is valid but has 0 balance.
+
+**documents and test reports created in this job**:
+-  (Updated regularly)
+- 
+- 
+- 
+- 
+
+**Last 10 User Messages and any pending HUMAN messages**:
+1. User added folder select and expanded file types requirements. (Completed)
+2. User triggered deploy check. (Completed -  and  cleaned).
+3. User reported 4 bugs: Drag/Drop broken, Send to Advocate error, wrong target destination for Send to Advocate, WIPE DB button needed. (Completed)
+4. User requested P1 next items (Appeal letter template generator, Policy document crawler) and an attachment button for chat. Also requested reversion to Claude 4.5. (Completed 2/3 - *Appeal letter generator is pending*).
+5. User reported EC broken (needs structured JSON with attachments) and truncation issues. (Completed)
+6. User reported JSON parsing crash  resurfaced. (Completed - Found to be proxy timeout, fixed with context limits and header checks).
+
+**Project Health Check**:
+- Broken: Grok (0 Credits)
+- Mocked: None.
+- Healthy: Full App, File parsing, AI Chat (Claude), Web Crawler.
+
+**3rd Party Integrations**:
+- Anthropic Claude Sonnet 4.5 — requires User API Key ()
+- xAI Grok 3 — requires User API Key ( OUT OF CREDITS)
+
+**Testing status**:
+- Testing agent used after significant changes: YES (Iterations 3, 4, 5, 6)
+- Troubleshoot agent used after agent stuck in loop: NO
+- Test files created: , , , 
+- Known regressions: None.
+
+**Credentials to test flow**:
+- Security Gate Check: 
+- Security Gate Answer: 
+*(Check  for current API keys if needed).*
+
+**What agent forgot to execute**:
+The agent implemented the Policy Crawler and Chat Attachment button, but skipped the Appeal letter template generator requested in message 144.
+
+**Debugging checklist for current issue**
+*(No active bugs, but if the Appeal Letter feature fails to generate correctly):*
+    Issue: Appeal Letter Template Generator (Pending Feature)
+    Frontend files to check: 
+    -  (Verify prompt includes explicit instruction to format as a letter).
+    Backend files to check:
+    -  (Ensure  permits letter formatting and doesn't forcefully constrain the output structure).</analysis>

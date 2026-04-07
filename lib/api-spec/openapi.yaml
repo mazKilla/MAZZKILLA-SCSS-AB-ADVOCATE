@@ -1,0 +1,308 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: Email Converter API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: emails
+    description: Email conversion operations
+  - name: jobs
+    description: Conversion job management
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /emails/upload:
+    post:
+      operationId: uploadEmailFile
+      tags: [emails]
+      summary: Upload and convert an email file
+      description: Upload a .eml or .mbox file and convert it to structured text
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The .eml or .mbox file to convert
+              required:
+                - file
+      responses:
+        "200":
+          description: File uploaded and conversion started
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversionJob"
+        "400":
+          description: Invalid file
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /emails/jobs:
+    get:
+      operationId: listJobs
+      tags: [jobs]
+      summary: List all conversion jobs
+      description: Returns all email conversion jobs with their status
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: List of jobs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobListResponse"
+
+  /emails/jobs/{id}:
+    get:
+      operationId: getJob
+      tags: [jobs]
+      summary: Get a conversion job
+      description: Get a specific conversion job and its converted emails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Job details with emails
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobDetailResponse"
+        "404":
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteJob
+      tags: [jobs]
+      summary: Delete a conversion job
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Job deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /emails/{id}/download:
+    get:
+      operationId: downloadEmail
+      tags: [emails]
+      summary: Download converted email as text
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Plain text email
+          content:
+            text/plain:
+              schema:
+                type: string
+        "404":
+          description: Email not found
+
+  /emails/export/{jobId}:
+    get:
+      operationId: exportJob
+      tags: [jobs]
+      summary: Export all emails from a job as a zip archive
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Zip file with all converted emails
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    ConversionJob:
+      type: object
+      properties:
+        id:
+          type: integer
+        originalFilename:
+          type: string
+        fileType:
+          type: string
+          enum: [eml, mbox]
+        status:
+          type: string
+          enum: [pending, processing, completed, failed]
+        totalEmails:
+          type: integer
+        processedEmails:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        errorMessage:
+          type: string
+          nullable: true
+      required:
+        - id
+        - originalFilename
+        - fileType
+        - status
+        - totalEmails
+        - processedEmails
+        - createdAt
+        - updatedAt
+
+    ConvertedEmail:
+      type: object
+      properties:
+        id:
+          type: integer
+        jobId:
+          type: integer
+        generatedFilename:
+          type: string
+        subject:
+          type: string
+        sender:
+          type: string
+        recipients:
+          type: string
+        emailDate:
+          type: string
+          format: date-time
+          nullable: true
+        bodyText:
+          type: string
+        hasAttachments:
+          type: boolean
+        attachmentCount:
+          type: integer
+        attachmentNames:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - jobId
+        - generatedFilename
+        - subject
+        - sender
+        - recipients
+        - bodyText
+        - hasAttachments
+        - attachmentCount
+        - createdAt
+
+    JobListResponse:
+      type: object
+      properties:
+        jobs:
+          type: array
+          items:
+            $ref: "#/components/schemas/ConversionJob"
+        total:
+          type: integer
+      required:
+        - jobs
+        - total
+
+    JobDetailResponse:
+      type: object
+      properties:
+        job:
+          $ref: "#/components/schemas/ConversionJob"
+        emails:
+          type: array
+          items:
+            $ref: "#/components/schemas/ConvertedEmail"
+      required:
+        - job
+        - emails
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
+        - message
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        details:
+          type: string
+          nullable: true
+      required:
+        - error
