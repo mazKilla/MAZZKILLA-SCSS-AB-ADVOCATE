@@ -190,6 +190,7 @@ export default function App() {
   const [emailCount, setEmailCount] = useState(0);
   const [activeTab, setActiveTab] = useState("chat"); // "chat" | "converter"
   const [showDebug, setShowDebug] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Load sessions on mount
   const loadSessions = useCallback(async () => {
@@ -378,6 +379,8 @@ export default function App() {
         activeTab={activeTab}
         onTabChange={setActiveTab}
         onOpenDebug={() => setShowDebug(true)}
+        sidebarOpen={sidebarOpen}
+        onToggleSidebar={() => setSidebarOpen(v => !v)}
       />
 
       <div className="flex flex-1 overflow-hidden">
@@ -387,9 +390,11 @@ export default function App() {
             <Sidebar
               sessions={sessions}
               activeSession={activeSession}
-              onSelectSession={(s) => setActiveSession(s)}
+              onSelectSession={(s) => { setActiveSession(s); setSidebarOpen(false); }}
               onNewSession={createSession}
               onDeleteSession={deleteSession}
+              isOpen={sidebarOpen}
+              onClose={() => setSidebarOpen(false)}
             />
 
             {/* Main Chat Area */}

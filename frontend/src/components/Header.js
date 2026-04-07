@@ -1,10 +1,10 @@
 import React from "react";
-import { Bot, Mail, ChevronRight, MessageSquare, RefreshCw, Activity } from "lucide-react";
+import { Bot, Mail, ChevronRight, MessageSquare, RefreshCw, Activity, Menu, X } from "lucide-react";
 
 const CLAUDE_ID = "claude";
 const GROK_ID = "grok";
 
-export default function Header({ selectedModel, onModelChange, showEmailPanel, onToggleEmailPanel, emailCount, activeTab, onTabChange, onOpenDebug }) {
+export default function Header({ selectedModel, onModelChange, showEmailPanel, onToggleEmailPanel, emailCount, activeTab, onTabChange, onOpenDebug, sidebarOpen, onToggleSidebar }) {
   return (
     <header
       data-testid="app-header"
@@ -15,9 +15,17 @@ export default function Header({ selectedModel, onModelChange, showEmailPanel, o
       }}
     >
       {/* Top row */}
-      <div className="h-14 flex items-center justify-between px-6">
-        {/* Logo + App Name */}
-        <div className="flex items-center gap-3">
+      <div className="h-14 flex items-center justify-between px-3 md:px-6">
+        {/* Hamburger (mobile only) + Logo + App Name */}
+        <div className="flex items-center gap-2 md:gap-3">
+          {/* Hamburger toggle — mobile only */}
+          <button
+            className="md:hidden p-2 rounded"
+            onClick={onToggleSidebar}
+            style={{ background: "transparent", border: "none", color: "#00FFD4", cursor: "pointer" }}
+          >
+            {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
           <span
             className="logo-glow font-heading font-black tracking-tighter text-xl"
             style={{ color: "#00FFD4", fontFamily: "'Unbounded', sans-serif" }}
@@ -26,7 +34,7 @@ export default function Header({ selectedModel, onModelChange, showEmailPanel, o
             MazZKiLL@
           </span>
           <div
-            className="pl-3 flex flex-col"
+            className="hidden md:flex pl-3 flex-col"
             style={{ borderLeft: "1px solid rgba(255,255,255,0.15)" }}
           >
             <span
@@ -53,8 +61,8 @@ export default function Header({ selectedModel, onModelChange, showEmailPanel, o
             border: "1px solid rgba(255,255,255,0.1)",
           }}
         >
-          <ModelBtn id={CLAUDE_ID} label="Claude Sonnet 4.5" selected={selectedModel === CLAUDE_ID} onClick={() => onModelChange(CLAUDE_ID)} />
-          <ModelBtn id={GROK_ID} label="Grok 3" selected={selectedModel === GROK_ID} onClick={() => onModelChange(GROK_ID)} />
+          <ModelBtn id={CLAUDE_ID} label="Claude Sonnet 4.5" shortLabel="Claude" selected={selectedModel === CLAUDE_ID} onClick={() => onModelChange(CLAUDE_ID)} />
+          <ModelBtn id={GROK_ID} label="Grok 3" shortLabel="Grok" selected={selectedModel === GROK_ID} onClick={() => onModelChange(GROK_ID)} />
         </div>
 
         {/* Right Actions */}
@@ -137,11 +145,12 @@ export default function Header({ selectedModel, onModelChange, showEmailPanel, o
   );
 }
 
-function ModelBtn({ id, label, selected, onClick }) {  return (
+function ModelBtn({ id, label, shortLabel, selected, onClick }) {
+  return (
     <button
       data-testid={`model-btn-${id}`}
       onClick={onClick}
-      className="flex items-center gap-2 px-4 py-1.5 rounded-full transition-all text-sm"
+      className="flex items-center gap-2 px-2 md:px-4 py-1.5 rounded-full transition-all text-sm"
       style={{
         fontFamily: "'JetBrains Mono', monospace",
         fontSize: "11px",
@@ -157,7 +166,8 @@ function ModelBtn({ id, label, selected, onClick }) {  return (
           style={{ background: "#00FFD4", display: "inline-block", flexShrink: 0 }}
         />
       )}
-      {label}
+      <span className="hidden md:inline">{label}</span>
+      <span className="md:hidden">{shortLabel}</span>
     </button>
   );
 }

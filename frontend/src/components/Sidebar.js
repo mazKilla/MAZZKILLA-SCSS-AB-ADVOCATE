@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Plus, Trash2, MessageSquare } from "lucide-react";
 
-export default function Sidebar({ sessions, activeSession, onSelectSession, onNewSession, onDeleteSession }) {
+export default function Sidebar({ sessions, activeSession, onSelectSession, onNewSession, onDeleteSession, isOpen, onClose }) {
   const [newTitle, setNewTitle] = useState("");
   const [showNewInput, setShowNewInput] = useState(false);
   const [hoveredId, setHoveredId] = useState(null);
@@ -14,15 +14,25 @@ export default function Sidebar({ sessions, activeSession, onSelectSession, onNe
   };
 
   return (
-    <aside
-      data-testid="sidebar"
-      className="flex flex-col shrink-0"
-      style={{
-        width: "272px",
-        borderRight: "1px solid rgba(255,255,255,0.08)",
-        background: "#030305",
-      }}
-    >
+    <>
+      {/* Mobile backdrop — tap to close */}
+      {isOpen && (
+        <div
+          className="md:hidden fixed inset-0 z-40"
+          style={{ background: "rgba(0,0,0,0.6)" }}
+          onClick={onClose}
+        />
+      )}
+      <aside
+        data-testid="sidebar"
+        className={`flex flex-col shrink-0 fixed md:relative inset-y-0 left-0 z-50 md:z-auto md:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+        style={{
+          width: "272px",
+          borderRight: "1px solid rgba(255,255,255,0.08)",
+          background: "#030305",
+          transition: "transform 0.25s ease",
+        }}
+      >
       {/* Header */}
       <div
         className="px-4 py-3 flex items-center justify-between"
@@ -162,7 +172,8 @@ export default function Sidebar({ sessions, activeSession, onSelectSession, onNe
           Alberta ALSS | ETW | SCSS
         </div>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }
 
