@@ -47,6 +47,25 @@
 
 ---
 
+### PHASE 4 — Docker + GitHub Packages (2026-04-07)
+**When:** 2026-04-07
+**Agent:** Claude Code (Sonnet 4.6)
+
+**What was done:**
+- Docker image built (single-stage python:3.13-slim, pre-built React static files)
+- `Dockerfile`, `docker-entrypoint.sh`, `.dockerignore` added to repo
+- Image published to GitHub Container Registry: `ghcr.io/mazkilla/mazzkilla-scss-ab-advocate:latest`
+- Classic PAT with `write:packages` scope required (OAuth token insufficient)
+- Line-wrapping in terminal corrupts Docker env var URLs — documented in RUNBOOK
+- Full Docker CLI reference added to `!MITCH!/RUNBOOK.md`
+- Container runs successfully via Docker Desktop
+
+**Known issue logged:**
+- LAN access broken when running via Docker — other devices cannot view UI
+- Native `start-windows.ps1` still works for LAN (use this until Docker LAN fixed)
+
+---
+
 ### PHASE 3 — First Working Build (2026-04-06)
 **When:** 2026-04-06
 **Agent:** Claude Code (Sonnet 4.6)
@@ -101,36 +120,41 @@
 
 | # | Task | Why |
 |---|------|-----|
-| 1 | Run policy crawler | `policy_docs` collection is empty — AI has no crawled Alberta.ca docs yet |
-| 2 | Test full chat flow end-to-end | Confirm Claude responds correctly to ETW appeal questions |
-| 3 | Add basic authentication | Anyone on LAN can access — at minimum a password or token |
-| 4 | Fix EmailConverter.js ESLint warning | Line 771 — `// comment` inside JSX → `{/* comment */}` |
-| 5 | Choose yarn OR npm | Both lockfiles present — pick one and remove the other |
+| 1 | **Fix LAN access in Docker** | Other LAN devices can't reach Docker container — Windows Firewall not passing Docker ports to network |
+| 2 | **Add kill/stop process to launcher** | No way to cleanly stop backend+frontend from within the app or shortcut — must hunt PIDs manually |
+| 3 | Run policy crawler | `policy_docs` collection is empty — AI has no crawled Alberta.ca docs yet |
+| 4 | Test full chat flow end-to-end | Confirm Claude responds correctly to ETW appeal questions |
+| 5 | Add basic authentication | Anyone on LAN can access — at minimum a password or token |
+| 6 | Fix EmailConverter.js ESLint warning | Line 771 — `// comment` inside JSX → `{/* comment */}` |
+| 7 | Choose yarn OR npm | Both lockfiles present — pick one and remove the other |
 
-### P2 — Should Do
+### P2 — UI / UX Improvements (from user feedback 2026-04-07)
 
 | # | Task | Why |
 |---|------|-----|
-| 6 | Add xAI credits | Grok-3 is a strong complement to Claude for real-time answers |
-| 7 | Paginate sessions list | Will break when DB grows past ~500 sessions |
-| 8 | Add session search/filter | Hard to find old client sessions |
-| 9 | Export session to PDF | Caseworkers need printable records |
-| 10 | Add case reference field | Tag sessions with client initials/case code |
+| 8 | **Multi-select file uploads with checkboxes** | Current UX: select 1 file → returns to main screen every time. Need checkbox list, select multiple, then one "Send All Marked" action |
+| 9 | **Two upload checkbox pools** | One checkbox set for emails (EmailPanel), second for documents (populates document/context side for AI). Currently only 1 email-only selector |
+| 10 | **Launcher splash/spinner screen** | Show app logo with spinning animation while backend+frontend are loading — users currently have no visual feedback on when to open the browser |
+| 11 | **Web crawler — government domains** | List known Alberta gov domains in document upload UI. Crawled content goes to a SEPARATE `knowledge_base` MongoDB collection for AI context. Upgrade crawler to use best available Claude model (claude-opus-4-6) |
+| 12 | Add xAI credits | Grok-3 is a strong complement to Claude for real-time answers |
+| 13 | Paginate sessions list | Will break when DB grows past ~500 sessions |
+| 14 | Add session search/filter | Hard to find old client sessions |
+| 15 | Export session to PDF | Caseworkers need printable records |
+| 16 | Add case reference field | Tag sessions with client initials/case code |
 
 ### P3 — Future / Nice to Have
 
 | # | Task | Why |
 |---|------|-----|
-| 11 | User accounts / login | Multiple advocates, each with their own sessions |
-| 12 | AISH policy deep-dive | System prompt could be expanded significantly |
-| 13 | CAP hearing prep mode | Structured workflow for preparing oral hearings |
-| 14 | Deadline calculator | Auto-calculate appeal deadlines from decision dates |
-| 15 | Email template library | Pre-drafted letters for common situations |
-| 16 | Docker deployment | Easier setup for orgs without tech staff |
-| 17 | Mobile-responsive UI | For client self-service on phones |
-| 18 | Alberta.ca auto-sync | Re-crawl policy docs on schedule |
-| 19 | Multi-language support | Cree, French, Dene for Indigenous clients |
-| 20 | Offline mode | For low-connectivity community use |
+| 17 | User accounts / login | Multiple advocates, each with their own sessions |
+| 18 | AISH policy deep-dive | System prompt could be expanded significantly |
+| 19 | CAP hearing prep mode | Structured workflow for preparing oral hearings |
+| 20 | Deadline calculator | Auto-calculate appeal deadlines from decision dates |
+| 21 | Email template library | Pre-drafted letters for common situations |
+| 22 | Mobile-responsive UI | For client self-service on phones |
+| 23 | Alberta.ca auto-sync | Re-crawl policy docs on schedule |
+| 24 | Multi-language support | Cree, French, Dene for Indigenous clients |
+| 25 | Offline mode | For low-connectivity community use |
 
 ---
 
@@ -146,6 +170,8 @@
 | BUG-06 | policy_docs collection never populated | Medium | Open — needs crawler run |
 | BUG-07 | No input sanitization on chat endpoint | Medium | Open — internal network only for now |
 | BUG-08 | CORS set to allow all origins (*) | Medium | Acceptable for LAN, fix before public deploy |
+| BUG-09 | Docker container not LAN-accessible — only localhost works | High | Open — Windows Firewall/Docker network bridge issue |
+| BUG-10 | No clean stop mechanism in launcher/shortcut | Medium | Open — must kill PIDs manually |
 
 ---
 
